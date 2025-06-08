@@ -17,7 +17,7 @@ class HashMap {
 
     return hashCode % 16;
   }
-
+  // I tried to make a more compicated one that handles multiple collisions, thats why there is two arrays
   set(key, value) {
     let index = this.hash(key);
     if (this.buckets[index]) {
@@ -64,7 +64,7 @@ class HashMap {
 
     return item ? true : false;
   }
-
+  // this remove function does need to chack on another values, but since it only take one argumenet "key", I made it handles the collisions as possible as it can
   remove(key) {
     let index = this.hash(key);
     let item = this.buckets[index];
