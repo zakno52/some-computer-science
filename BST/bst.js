@@ -102,18 +102,23 @@ class BuildTree {
             nextNode = nextNode.left;
           }
           node.head = nextNode.head;
-          previous.left = null;
+          if (nextNode.right) {
+            previous.left = nextNode.right;
+          } else {
+            previous.left = null;
+          }
+
           nextNode = null; // call the same function with that value
         } else {
-          if (previous.left.head === value) {
-            previous.left = nextNode;
+          if (node.left) {
+            node = node.left;
           } else {
-            previous.right = nextNode;
+            node = node.right;
           }
         }
         // delete current
-        node = null;
-        return 'done';
+        // node = null;
+        // return 'done';
       }
       return node;
     };
