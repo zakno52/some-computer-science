@@ -84,6 +84,42 @@ class BuildTree {
 
     compair(this.tree.root);
   }
+
+  deleteItem(value) {
+    const compair = (node) => {
+      if (node === null) return null;
+
+      if (value < node.head) {
+        node.left = compair(node.left);
+      } else if (value > node.head) {
+        node.right = compair(node.right);
+      } else if (value === node.head) {
+        if (node.left && node.right) {
+          let previous;
+          let nextNode = node.right;
+          while (nextNode.left) {
+            previous = nextNode;
+            nextNode = nextNode.left;
+          }
+          node.head = nextNode.head;
+          previous.left = null;
+          nextNode = null; // call the same function with that value
+        } else {
+          if (previous.left.head === value) {
+            previous.left = nextNode;
+          } else {
+            previous.right = nextNode;
+          }
+        }
+        // delete current
+        node = null;
+        return 'done';
+      }
+      return node;
+    };
+
+    compair(this.tree.root);
+  }
 }
 
 // Pretty print function
