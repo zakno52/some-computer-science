@@ -43,6 +43,8 @@ class BuildTree {
     this.tree = new Tree(sorted);
   }
 
+  //shit
+
   // insert(value) {
   //   if (this.tree.root === null) {
   //     this.tree.root = new Node(value);
@@ -90,9 +92,9 @@ class BuildTree {
       if (node === null) return null;
 
       if (value < node.head) {
-        node.left = compair(node.left);
+        compair(node.left);
       } else if (value > node.head) {
-        node.right = compair(node.right);
+        compair(node.right);
       } else if (value === node.head) {
         if (node.left && node.right) {
           let previous;
@@ -108,7 +110,7 @@ class BuildTree {
             previous.left = null;
           }
 
-          nextNode = null; // call the same function with that value
+          nextNode = null;
         } else {
           if (node.left) {
             node = node.left;
@@ -116,14 +118,183 @@ class BuildTree {
             node = node.right;
           }
         }
-        // delete current
-        // node = null;
-        // return 'done';
       }
       return node;
     };
 
     compair(this.tree.root);
+  }
+
+  find(value, silent = false) {
+    const compair = (node) => {
+      if (node === null) {
+        console.log('Error: not found');
+        return null;
+      }
+
+      if (value < node.head) {
+        return compair(node.left);
+      } else if (value > node.head) {
+        return compair(node.right);
+      } else if (value === node.head) {
+        if (!silent) console.log('Found node:', node);
+        return node;
+      }
+    };
+    return compair(this.tree.root);
+  }
+
+  levelOrder(node) {
+    if (!node) return console.log('Error: A callback function is required. node tree');
+
+    let array = [node];
+    while (array.length > 0) {
+      if (array[0].left) {
+        array.push(array[0].left);
+      }
+      if (array[0].right) {
+        array.push(array[0].right);
+      }
+
+      console.log(array[0].head);
+      array.shift();
+    }
+  }
+  preOrder(tree) {
+    if (!tree) return console.log('Error: A callback function is required. node tree');
+    let array = [];
+    const compair = (node) => {
+      if (node === null) return null;
+      array.push(node.head);
+      if (node.left) {
+        compair(node.left);
+      }
+      if (node.right) {
+        compair(node.right);
+      }
+    };
+
+    compair(tree);
+    return console.log(array);
+  }
+
+  inOrder(tree, silent = false) {
+    if (!tree) return console.log('Error: A callback function is required. node tree');
+    let array = [];
+    const compair = (node) => {
+      if (node === null) return null;
+
+      if (node.left) {
+        compair(node.left);
+      }
+      array.push(node.head);
+
+      if (node.right) {
+        compair(node.right);
+      }
+    };
+
+    compair(tree);
+    if (!silent) console.log(array);
+    return array;
+  }
+
+  postOrder(tree) {
+    if (!tree) return console.log('Error: A callback function is required. node tree');
+    let array = [];
+    const compair = (node) => {
+      if (node === null) return null;
+
+      if (node.left) {
+        compair(node.left);
+      }
+      if (node.right) {
+        compair(node.right);
+      }
+      array.push(node.head);
+    };
+
+    compair(tree);
+    return console.log(array);
+  }
+
+  //shit
+
+  // height(value) {
+  //   let counter = 0;
+  //   let tree = this.find(value, true);
+  //   const compair = (node) => {
+  //     if (node === null) return null;
+
+  //     if (node.left) {
+  //       compair(node.left);
+  //     }
+  //     if (node.right) {
+  //       compair(node.right);
+  //     }
+  //     if ((!node.left && !node.right) || (node.left && node.right)) {
+  //       counter--;
+  //     }
+  //     counter++;
+  //   };
+
+  //   compair(tree);
+  //   console.log(counter);
+  // }
+
+  height(value, silent = false) {
+    let tree = this.find(value, true);
+    const compair = (node) => {
+      if (node === null) return -1;
+      const leftHeight = compair(node.left);
+      const rightHeight = compair(node.right);
+
+      return Math.max(leftHeight, rightHeight) + 1;
+    };
+    let results = compair(tree);
+    if (!silent) console.log(results);
+    return results;
+  }
+
+  depth(value) {
+    let counter = 0;
+    const compair = (node) => {
+      if (node === null) return console.log('Error: not found'), null;
+
+      if (value < node.head) {
+        counter++;
+        compair(node.left);
+      } else if (value > node.head) {
+        counter++;
+        compair(node.right);
+      } else if (value === node.head) {
+        return console.log(counter);
+      }
+    };
+
+    compair(this.tree.root);
+  }
+
+  isBalanced() {
+    let root = this.tree.root;
+    let rightNode = root.right;
+    let leftNode = root.left;
+    let rightHeight = this.height(rightNode.head, true);
+    let leftHeight = this.height(leftNode.head, true);
+    console.log(leftHeight, rightHeight);
+    console.log(rightHeight - leftHeight);
+
+    if (rightHeight - leftHeight <= 1 && rightHeight - leftHeight >= -1) {
+      console.log('its balanced');
+    } else {
+      console.log('not balanced');
+    }
+  }
+
+  rebalance() {
+    let sorted = this.inOrder(this.tree.root);
+    this.tree = new Tree(sorted);
+    console.log('sorted');
   }
 }
 
