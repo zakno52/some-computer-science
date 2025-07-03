@@ -1,4 +1,4 @@
-// I made this code first its messy but its working, its very basic yes.
+// I made this code first its messy but its working, its very basic yes. (check second for cleaner code)
 // It's BFS with recursion
 
 class Node {

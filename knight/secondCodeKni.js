@@ -1,5 +1,6 @@
 // I coudn't make this from scratch, i needed some help i looked it up, it took me time to understand it.
-// It's easy to think of but the nodes/linked-lists missled me to thik in a diffrent way.
+// It's easy to think of but the nodes/linked-lists misled me to thik in a diffrent way.
+// I made an explinication for you are stuck, hope it helps
 
 const moves = [
   [2, 1],
